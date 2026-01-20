@@ -15,14 +15,17 @@ DEBUG = os.getenv('DEBUG', 'False').lower() == 'true'
 
 ALLOWED_HOSTS = os.getenv('ALLOWED_HOSTS', '127.0.0.1,localhost').split(',')
 
+AUTH_USER_MODEL = 'users.StoreUser'
+
 INSTALLED_APPS = [
-    'catalog.apps.CatalogConfig',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'catalog.apps.CatalogConfig',
+    'users.apps.UsersConfig',
 ]
 
 MIDDLEWARE = [
