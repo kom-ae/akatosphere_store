@@ -2,17 +2,21 @@ import os
 from base64 import urlsafe_b64encode
 from uuid import uuid4
 
-from unidecode import unidecode
 from django.db import models
 from django.utils.text import slugify
+from imagekit.models import ImageSpecField
+from imagekit.processors import ResizeToFit
+from unidecode import unidecode
 
-from constants import MAX_LENGTH_NAME
+from constants import (IMAGEKIT_FORMAT, IMAGEKIT_OPTIONS, MAX_LENGTH_NAME,
+                       SIZE_BIG_IMAGE, SIZE_MEDIUM_IMAGE, SIZE_SMALL_IMAGE)
+from utils import get_trim_line
 
 
-class CategoryAbstractModel(models.Model):
+class CategoryProductsAbstractModel(models.Model):
     """Абстрактная модель для категории и подкатегории."""
 
-    folder_img = 'catalog/category'
+    folder_img = os.path.join('catalog', 'categories')
 
     def generate_filename(self, filename: str) -> str:
         """Генерирует уникальное имя файла."""
@@ -25,6 +29,7 @@ class CategoryAbstractModel(models.Model):
         verbose_name='Название',
         max_length=MAX_LENGTH_NAME,
         unique=True,
+        db_index=True,
     )
     slug = models.SlugField(
         max_length=MAX_LENGTH_NAME,
@@ -51,7 +56,7 @@ class CategoryAbstractModel(models.Model):
         ordering = ('name',)
 
     def __str__(self):
-        return self.name
+        return get_trim_line(self.name)
 
     def save(self, *args, **kwargs):
         if not self.slug:
@@ -59,7 +64,7 @@ class CategoryAbstractModel(models.Model):
         super().save(*args, **kwargs)
 
 
-class Category(CategoryAbstractModel):
+class Category(CategoryProductsAbstractModel):
     """Модель категории."""
 
     class Meta:
@@ -67,16 +72,52 @@ class Category(CategoryAbstractModel):
         verbose_name_plural = 'Категории'
 
 
-class SubCategory(CategoryAbstractModel):
+class SubCategory(CategoryProductsAbstractModel):
     """Модель подкатегории."""
 
     category = models.ForeignKey(
         Category,
-        on_delete=models.CASCADE,
         verbose_name='Категория',
+        on_delete=models.CASCADE,
     )
 
     class Meta:
         verbose_name = 'Подкатегория'
         verbose_name_plural = 'Подкатегории'
         default_related_name = 'subcategories'
+
+
+class Product(CategoryProductsAbstractModel):
+    """Модель продукта."""
+
+    folder_img = os.path.join('catalog', 'products')
+
+    price = models.PositiveIntegerField(verbose_name='Цена',)
+    subcategory = models.ForeignKey(
+        SubCategory,
+        verbose_name='Подкатегория',
+        on_delete=models.CASCADE,
+    )
+    image_small = ImageSpecField(
+        processors=[ResizeToFit(*SIZE_SMALL_IMAGE),],
+        source='image',
+        format=IMAGEKIT_FORMAT,
+        options=IMAGEKIT_OPTIONS,
+        )
+    image_medium = ImageSpecField(
+        processors=[ResizeToFit(*SIZE_MEDIUM_IMAGE),],
+        source='image',
+        format=IMAGEKIT_FORMAT,
+        options=IMAGEKIT_OPTIONS,
+        )
+    image_big = ImageSpecField(
+        processors=[ResizeToFit(*SIZE_BIG_IMAGE),],
+        source='image',
+        format=IMAGEKIT_FORMAT,
+        options=IMAGEKIT_OPTIONS,
+        )
+
+    class Meta:
+        verbose_name = 'Продукт'
+        verbose_name_plural = 'Продукты'
+        default_related_name = 'products'

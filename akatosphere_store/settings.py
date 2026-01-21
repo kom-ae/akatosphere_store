@@ -26,6 +26,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'catalog.apps.CatalogConfig',
     'users.apps.UsersConfig',
+    'cart.apps.CartConfig',
+    'imagekit',
 ]
 
 MIDDLEWARE = [
@@ -93,3 +95,6 @@ STATIC_URL = 'static/'
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
+# Настройки IMAGEKIT
+IMAGEKIT_CACHEFILE_DIR = 'CACHE'
