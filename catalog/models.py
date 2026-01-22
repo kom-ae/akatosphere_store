@@ -28,7 +28,6 @@ class CategoryProductsAbstractModel(models.Model):
     name = models.CharField(
         verbose_name='Название',
         max_length=MAX_LENGTH_NAME,
-        unique=True,
         db_index=True,
     )
     slug = models.SlugField(
@@ -67,6 +66,13 @@ class CategoryProductsAbstractModel(models.Model):
 class Category(CategoryProductsAbstractModel):
     """Модель категории."""
 
+    name = models.CharField(
+        verbose_name='Название',
+        max_length=MAX_LENGTH_NAME,
+        unique=True,
+        db_index=True,
+    )
+
     class Meta:
         verbose_name = 'Категория'
         verbose_name_plural = 'Категории'
@@ -85,6 +91,20 @@ class SubCategory(CategoryProductsAbstractModel):
         verbose_name = 'Подкатегория'
         verbose_name_plural = 'Подкатегории'
         default_related_name = 'subcategories'
+        constraints = (
+            models.UniqueConstraint(
+                fields=('name', 'category'),
+                name='Unique category-subcategory constraint'
+            ),
+        )
+
+    def save(self, *args, **kwargs):
+        if not self.slug:
+            self.slug = '{}_{}'.format(
+                self.category.slug,
+                slugify(unidecode(self.name))
+            )
+        super().save(*args, **kwargs)
 
 
 class Product(CategoryProductsAbstractModel):
@@ -103,21 +123,35 @@ class Product(CategoryProductsAbstractModel):
         source='image',
         format=IMAGEKIT_FORMAT,
         options=IMAGEKIT_OPTIONS,
-        )
+    )
     image_medium = ImageSpecField(
         processors=[ResizeToFit(*SIZE_MEDIUM_IMAGE),],
         source='image',
         format=IMAGEKIT_FORMAT,
         options=IMAGEKIT_OPTIONS,
-        )
+    )
     image_big = ImageSpecField(
         processors=[ResizeToFit(*SIZE_BIG_IMAGE),],
         source='image',
         format=IMAGEKIT_FORMAT,
         options=IMAGEKIT_OPTIONS,
-        )
+    )
 
     class Meta:
         verbose_name = 'Продукт'
         verbose_name_plural = 'Продукты'
         default_related_name = 'products'
+        constraints = (
+            models.UniqueConstraint(
+                fields=('name', 'subcategory'),
+                name='Unique product-category constraint'
+            ),
+        )
+
+    def save(self, *args, **kwargs):
+        if not self.slug:
+            self.slug = '{}_{}'.format(
+                self.subcategory.slug,
+                slugify(unidecode(self.name))
+            )
+        super().save(*args, **kwargs)
