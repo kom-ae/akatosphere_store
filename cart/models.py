@@ -22,6 +22,7 @@ class Cart(models.Model):
     )
     count = models.PositiveSmallIntegerField(
         verbose_name='Количество',
+        default=1,
     )
     create_at = models.DateTimeField(
         verbose_name='Дата создания',

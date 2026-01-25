@@ -1,6 +1,7 @@
 from rest_framework import serializers
 
 from catalog.models import Product, Category, SubCategory
+from cart.models import Cart
 
 
 class ProductSerializer(serializers.ModelSerializer):
@@ -46,7 +47,15 @@ class ProductSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Product
-        fields = ['name', 'slug', 'category', 'subcategory', 'price', 'images']
+        fields = (
+            'id',
+            'name',
+            'slug',
+            'category',
+            'subcategory',
+            'price',
+            'images',
+        )
 
 
 class SubcategorySerializer(serializers.ModelSerializer):
@@ -54,7 +63,7 @@ class SubcategorySerializer(serializers.ModelSerializer):
 
     class Meta:
         model = SubCategory
-        fields = ['name', 'slug', 'image']
+        fields = ('id', 'name', 'slug', 'image',)
 
 
 class CategorySerializer(serializers.ModelSerializer):
@@ -64,4 +73,29 @@ class CategorySerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Category
-        fields = ['name', 'slug', 'image', 'subcategories']
+        fields = ('id', 'name', 'slug', 'image', 'subcategories',)
+
+
+class CartSerializer(serializers.ModelSerializer):
+    """Сериализатор для корзины."""
+
+    product = ProductSerializer(read_only=True)
+
+    class Meta:
+        model = Cart
+        fields = ('id', 'product', 'count',)
+
+
+class CartViewSerializer(serializers.ModelSerializer):
+    """Сериализатор для представления корзины пользователю."""
+
+    product = ProductSerializer(read_only=True)
+    total_price = serializers.DecimalField(
+        max_digits=10,
+        decimal_places=2,
+        read_only=True
+    )
+
+    class Meta:
+        model = Cart
+        fields = ['id', 'product', 'count', 'total_price']
