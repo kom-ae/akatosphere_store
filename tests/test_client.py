@@ -1,60 +1,62 @@
-import pytest
-
 from http import HTTPStatus
+
+import pytest
 from django.urls import reverse
-# from django.contrib.auth.models import User
-from django.contrib.auth import get_user_model
-from django.contrib.auth.hashers import make_password
 
-from rest_framework.test import APIClient
-
-User = get_user_model()
+pytestmark = pytest.mark.django_db
 
 
-@pytest.fixture
-def test_user():
-    user = User.objects.create(
-        username='testuser',
-        # email='test@example.com'
-    )
-    user.password = make_password('пароль')
-    user.save()
-    return user
+class TestCart:
+    """Протестируй корзину."""
 
-
-@pytest.fixture
-def api_client():
-    return APIClient()
-
-
-@pytest.fixture
-def authenticated_client(user):
-    client = APIClient()
-    return client.force_authenticate(user=user)
-
-
-@pytest.fixture
-def authenticated_api_client(api_client):
-    url = reverse('api:jwt-create')
-    response = api_client.post(
-        reverse,
-        {'username': 'testuser', 'password': 'пароль'},
-        format='json'
-    )
-    token = response.data['access']
-    return api_client.credentials(HTTP_AUTHORIZATION=f'Bearer {token}')
-
-
-class TestClient:
-
-    def test_client(self, api_client, db):
-        url = reverse('api:categories-list')
+    def test_unauthorized_access(self, api_client):
+        """Без токена доступ запрещён."""
+        url = reverse('api:cart-view')
         response = api_client.get(url)
-        print(response)
-        assert True
+        assert response.status_code == HTTPStatus.UNAUTHORIZED
 
-    def test_get_cart(authenticated_api_client):
+    @pytest.mark.usefixtures('test_user')
+    def test_authorized_access(self, authenticated_api_client):
+        """Запрос данных с валидным токеном к пустой корзине."""
         url = reverse('api:cart-view')
         response = authenticated_api_client.get(url)
         assert response.status_code == HTTPStatus.OK
-        assert response.data['count'] == 0
+        assert len(response.data['cart']) == 0
+
+    @pytest.mark.usefixtures('test_user')
+    def test_add_cart(self, authenticated_api_client):
+        """Добавление товара в корзину."""
+        url = reverse('api:cart-add')
+        data = {
+            'product': 2,
+            'count': 22
+        }
+        response = authenticated_api_client.post(url, data, format='json')
+        assert response.status_code == HTTPStatus.CREATED
+        assert response.data['product']['id'] == 2
+
+    @pytest.mark.usefixtures('test_user')
+    def test_authorized_access_cart(self, authenticated_api_client, cart_add):
+        """Запрос данных с валидным токеном к корзине с одним товаром."""
+        url = reverse('api:cart-view')
+        response = authenticated_api_client.get(url)
+        assert response.status_code == HTTPStatus.OK
+        assert len(response.data['cart']) == 1
+
+
+class TestCatalog:
+    """Протестируй каталог."""
+
+    def test_unauthorized_access_categories(self, api_client):
+        """Доступ к категориям неавторизованным пользователем."""
+        url = reverse('api:categories-list')
+        response = api_client.get(url)
+        assert response.status_code == HTTPStatus.OK
+        assert response.data['count'] == 5
+
+    def test_unauthorized_access_products(self, api_client):
+        """Доступ к продуктам неавторизованным пользователем."""
+        url = reverse('api:products-list')
+        response = api_client.get(url)
+        assert response.status_code == HTTPStatus.OK
+        assert response.data['count'] == 30

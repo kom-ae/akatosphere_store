@@ -14,7 +14,7 @@ from utils import get_trim_line
 
 
 class CategoryProductsAbstractModel(models.Model):
-    """Абстрактная модель для категории и подкатегории."""
+    """Абстрактная модель для категорий, подкатегорий и продуктов."""
 
     folder_img = os.path.join('catalog', 'categories')
 
@@ -73,7 +73,7 @@ class Category(CategoryProductsAbstractModel):
         db_index=True,
     )
 
-    class Meta:
+    class Meta(CategoryProductsAbstractModel.Meta):
         verbose_name = 'Категория'
         verbose_name_plural = 'Категории'
 
@@ -87,7 +87,7 @@ class SubCategory(CategoryProductsAbstractModel):
         on_delete=models.CASCADE,
     )
 
-    class Meta:
+    class Meta(CategoryProductsAbstractModel.Meta):
         verbose_name = 'Подкатегория'
         verbose_name_plural = 'Подкатегории'
         default_related_name = 'subcategories'
@@ -141,7 +141,7 @@ class Product(CategoryProductsAbstractModel):
         options=IMAGEKIT_OPTIONS,
     )
 
-    class Meta:
+    class Meta(CategoryProductsAbstractModel.Meta):
         verbose_name = 'Продукт'
         verbose_name_plural = 'Продукты'
         default_related_name = 'products'

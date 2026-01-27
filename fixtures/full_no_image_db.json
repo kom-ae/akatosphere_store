@@ -1,0 +1,647 @@
+[
+{
+  "model": "catalog.category",
+  "pk": 1,
+  "fields": {
+    "slug": "elektronika",
+    "image": "catalog/categories/electronics.png",
+    "create_at": "2026-01-21T17:40:59.063Z",
+    "modified_at": "2026-01-21T17:40:59.063Z",
+    "name": "Электроника"
+  }
+},
+{
+  "model": "catalog.category",
+  "pk": 2,
+  "fields": {
+    "slug": "odezhda",
+    "image": "catalog/categories/clothing.png",
+    "create_at": "2026-01-21T17:41:12.145Z",
+    "modified_at": "2026-01-21T17:41:12.145Z",
+    "name": "Одежда"
+  }
+},
+{
+  "model": "catalog.category",
+  "pk": 3,
+  "fields": {
+    "slug": "bytovaya-tehnika",
+    "image": "catalog/categories/appliances.png",
+    "create_at": "2026-01-21T17:41:25.201Z",
+    "modified_at": "2026-01-21T17:41:25.201Z",
+    "name": "Бытовая техника"
+  }
+},
+{
+  "model": "catalog.category",
+  "pk": 4,
+  "fields": {
+    "slug": "sport-i-otdyh",
+    "image": "catalog/categories/sports.png",
+    "create_at": "2026-01-21T17:41:38.267Z",
+    "modified_at": "2026-01-21T17:41:38.267Z",
+    "name": "Спорт и отдых"
+  }
+},
+{
+  "model": "catalog.category",
+  "pk": 5,
+  "fields": {
+    "slug": "detskie-tovary",
+    "image": "catalog/categories/kids.png",
+    "create_at": "2026-01-21T17:41:51.333Z",
+    "modified_at": "2026-01-21T17:41:51.333Z",
+    "name": "Детские товары"
+  }
+},
+{
+  "model": "catalog.subcategory",
+  "pk": 1,
+  "fields": {
+    "name": "Смартфоны",
+    "slug": "smartfony",
+    "image": "catalog/subcategories/smartphones.png",
+    "create_at": "2026-01-21T17:42:01.333Z",
+    "modified_at": "2026-01-21T17:42:01.333Z",
+    "category": 1
+  }
+},
+{
+  "model": "catalog.subcategory",
+  "pk": 2,
+  "fields": {
+    "name": "Ноутбуки",
+    "slug": "noutbuki",
+    "image": "catalog/subcategories/laptops.png",
+    "create_at": "2026-01-21T17:42:15.402Z",
+    "modified_at": "2026-01-21T17:42:15.402Z",
+    "category": 1
+  }
+},
+{
+  "model": "catalog.subcategory",
+  "pk": 3,
+  "fields": {
+    "name": "Верхняя одежда",
+    "slug": "verhnyaya-odezhda",
+    "image": "catalog/subcategories/outerwear.png",
+    "create_at": "2026-01-21T17:42:30.488Z",
+    "modified_at": "2026-01-21T17:42:30.488Z",
+    "category": 2
+  }
+},
+{
+  "model": "catalog.subcategory",
+  "pk": 4,
+  "fields": {
+    "name": "Обувь",
+    "slug": "obuv",
+    "image": "catalog/subcategories/shoes.png",
+    "create_at": "2026-01-21T17:42:45.555Z",
+    "modified_at": "2026-01-21T17:42:45.555Z",
+    "category": 2
+  }
+},
+{
+  "model": "catalog.subcategory",
+  "pk": 5,
+  "fields": {
+    "name": "Холодильники",
+    "slug": "holodilniki",
+    "image": "catalog/subcategories/refrigerators.png",
+    "create_at": "2026-01-21T17:43:00.622Z",
+    "modified_at": "2026-01-21T17:43:00.622Z",
+    "category": 3
+  }
+},
+{
+  "model": "catalog.subcategory",
+  "pk": 6,
+  "fields": {
+    "name": "Стиральные машины",
+    "slug": "stiralnye-mashiny",
+    "image": "catalog/subcategories/washers.png",
+    "create_at": "2026-01-21T17:43:15.689Z",
+    "modified_at": "2026-01-21T17:43:15.689Z",
+    "category": 3
+  }
+},
+{
+  "model": "catalog.subcategory",
+  "pk": 7,
+  "fields": {
+    "name": "Велоспорт",
+    "slug": "velosport",
+    "image": "catalog/subcategories/cycling.png",
+    "create_at": "2026-01-21T17:43:30.756Z",
+    "modified_at": "2026-01-21T17:43:30.756Z",
+    "category": 4
+  }
+},
+{
+  "model": "catalog.subcategory",
+  "pk": 8,
+  "fields": {
+    "name": "Туризм",
+    "slug": "turizm",
+    "image": "catalog/subcategories/tourism.png",
+    "create_at": "2026-01-21T17:43:45.823Z",
+    "modified_at": "2026-01-21T17:43:45.823Z",
+    "category": 4
+  }
+},
+{
+  "model": "catalog.subcategory",
+  "pk": 9,
+  "fields": {
+    "name": "Игрушки",
+    "slug": "igrushki",
+    "image": "catalog/subcategories/toys.png",
+    "create_at": "2026-01-21T17:44:00.890Z",
+    "modified_at": "2026-01-21T17:44:00.890Z",
+    "category": 5
+  }
+},
+{
+  "model": "catalog.subcategory",
+  "pk": 10,
+  "fields": {
+    "name": "Детская одежда",
+    "slug": "detskaya-odezhda",
+    "image": "catalog/subcategories/kids_clothing.png",
+    "create_at": "2026-01-21T17:44:00.890Z",
+    "modified_at": "2026-01-21T17:44:00.890Z",
+    "category": 5
+  }
+},
+{
+  "model": "catalog.product",
+  "pk": 1,
+  "fields": {
+    "name": "iPhone 15 Pro Max",
+    "slug": "iphone-15-pro-max",
+    "image": "",
+    "create_at": "2026-01-21T20:15:34.289Z",
+    "modified_at": "2026-01-21T20:15:34.290Z",
+    "price": "129990.00",
+    "subcategory": 1
+  }
+},
+{
+  "model": "catalog.product",
+  "pk": 2,
+  "fields": {
+    "name": "Samsung Galaxy S23 Ultra",
+    "slug": "samsung-galaxy-s23-ultra",
+    "image": "",
+    "create_at": "2026-01-21T20:16:10.315Z",
+    "modified_at": "2026-01-21T20:16:10.316Z",
+    "price": "119990.00",
+    "subcategory": 1
+  }
+},
+{
+  "model": "catalog.product",
+  "pk": 3,
+  "fields": {
+    "name": "Google Pixel 8 Pro",
+    "slug": "google-pixel-8-pro",
+    "image": "",
+    "create_at": "2026-01-21T20:16:45.341Z",
+    "modified_at": "2026-01-21T20:16:45.342Z",
+    "price": "99990.00",
+    "subcategory": 1
+  }
+},
+{
+  "model": "catalog.product",
+  "pk": 4,
+  "fields": {
+    "name": "Lenovo ThinkPad X1 Carbon",
+    "slug": "lenovo-thinkpad-x1-carbon",
+    "image": "",
+    "create_at": "2026-01-21T20:17:20.367Z",
+    "modified_at": "2026-01-21T20:17:20.368Z",
+    "price": "149990.00",
+    "subcategory": 2
+  }
+},
+{
+  "model": "catalog.product",
+  "pk": 5,
+  "fields": {
+    "name": "MacBook Pro 16 (2023)",
+    "slug": "macbook-pro-16-2023",
+    "image": "",
+    "create_at": "2026-01-21T20:17:55.393Z",
+    "modified_at": "2026-01-21T20:17:55.394Z",
+    "price": "249990.00",
+    "subcategory": 2
+  }
+},
+{
+  "model": "catalog.product",
+  "pk": 6,
+  "fields": {
+    "name": "HP Spectre x360",
+    "slug": "hp-spectre-x360",
+    "image": "",
+    "create_at": "2026-01-21T20:18:30.419Z",
+    "modified_at": "2026-01-21T20:18:30.420Z",
+    "price": "139990.00",
+    "subcategory": 2
+  }
+},
+{
+  "model": "catalog.product",
+  "pk": 7,
+  "fields": {
+    "name": "Зимнее пальто Nord Storm",
+    "slug": "zimnee-palto-nord-storm",
+    "image": "",
+    "create_at": "2026-01-21T20:19:05.445Z",
+    "modified_at": "2026-01-21T20:19:05.446Z",
+    "price": "24990.00",
+    "subcategory": 3
+  }
+},
+{
+  "model": "catalog.product",
+  "pk": 8,
+  "fields": {
+    "name": "Куртка-парка Arctic",
+    "slug": "kurtka-parka-arctic",
+    "image": "",
+    "create_at": "2026-01-21T20:19:40.471Z",
+    "modified_at": "2026-01-21T20:19:40.472Z",
+    "price": "19990.00",
+    "subcategory": 3
+  }
+},
+{
+  "model": "catalog.product",
+  "pk": 9,
+  "fields": {
+    "name": "Ветровка Urban Style",
+    "slug": "vetrovka-urban-style",
+    "image": "",
+    "create_at": "2026-01-21T20:20:15.497Z",
+    "modified_at": "2026-01-21T20:20:15.498Z",
+    "price": "8990.00",
+    "subcategory": 3
+  }
+},
+{
+  "model": "catalog.product",
+  "pk": 10,
+  "fields": {
+    "name": "Кроссовки Nike Air Max",
+    "slug": "krossovki-nike-air-max",
+    "image": "",
+    "create_at": "2026-01-21T20:20:50.523Z",
+    "modified_at": "2026-01-21T20:20:50.524Z",
+    "price": "12990.00",
+    "subcategory": 4
+  }
+},
+{
+  "model": "catalog.product",
+  "pk": 11,
+  "fields": {
+    "name": "Ботинки Timberland Classic",
+    "slug": "botinki-timberland-classic",
+    "image": "",
+    "create_at": "2026-01-21T20:21:25.549Z",
+    "modified_at": "2026-01-21T20:21:25.550Z",
+    "price": "22990.00",
+    "subcategory": 4
+  }
+},
+{
+  "model": "catalog.product",
+  "pk": 12,
+  "fields": {
+    "name": "Сандалии Adidas Comfort",
+    "slug": "sandali-adidas-comfort",
+    "image": "",
+    "create_at": "2026-01-21T20:21:50.575Z",
+    "modified_at": "2026-01-21T20:21:50.576Z",
+    "price": "7990.00",
+    "subcategory": 4
+  }
+},
+{
+  "model": "catalog.product",
+  "pk": 13,
+  "fields": {
+    "name": "Холодильник Bosch KGN",
+    "slug": "holodilnik-bosch-kgn",
+    "image": "",
+    "create_at": "2026-01-21T20:22:15.601Z",
+    "modified_at": "2026-01-21T20:22:15.602Z",
+    "price": "89990.00",
+    "subcategory": 5
+  }
+},
+{
+  "model": "catalog.product",
+  "pk": 14,
+  "fields": {
+    "name": "Холодильник LG No Frost",
+    "slug": "holodilnik-lg-no-frost",
+    "image": "",
+    "create_at": "2026-01-21T20:22:40.627Z",
+    "modified_at": "2026-01-21T20:22:40.628Z",
+    "price": "74990.00",
+    "subcategory": 5
+  }
+},
+{
+  "model": "catalog.product",
+  "pk": 15,
+  "fields": {
+    "name": "Холодильник Samsung Family Hub",
+    "slug": "holodilnik-samsung-family-hub",
+    "image": "",
+    "create_at": "2026-01-21T20:23:05.653Z",
+    "modified_at": "2026-01-21T20:23:05.654Z",
+    "price": "119990.00",
+    "subcategory": 5
+  }
+},
+{
+  "model": "catalog.product",
+  "pk": 16,
+  "fields": {
+    "name": "Стиральная машина LG Direct Drive",
+    "slug": "stiralnaya-mashina-lg-direct-drive",
+    "image": "",
+    "create_at": "2026-01-21T20:23:30.679Z",
+    "modified_at": "2026-01-21T20:23:30.680Z",
+    "price": "49990.00",
+    "subcategory": 6
+  }
+},
+{
+  "model": "catalog.product",
+  "pk": 17,
+  "fields": {
+    "name": "Стиральная машина Bosch WAT",
+    "slug": "stiralnaya-mashina-bosch-wat",
+    "image": "",
+    "create_at": "2026-01-21T20:23:55.705Z",
+    "modified_at": "2026-01-21T20:23:55.706Z",
+    "price": "59990.00",
+    "subcategory": 6
+  }
+},
+{
+  "model": "catalog.product",
+  "pk": 18,
+  "fields": {
+    "name": "Стиральная машина Samsung EcoBubble",
+    "slug": "stiralnaya-mashina-samsung-ecobubble",
+    "image": "",
+    "create_at": "2026-01-21T20:24:20.731Z",
+    "modified_at": "2026-01-21T20:24:20.732Z",
+    "price": "54990.00",
+    "subcategory": 6
+  }
+},
+{
+  "model": "catalog.product",
+  "pk": 19,
+  "fields": {
+    "name": "Горный велосипед Trek Marlin",
+    "slug": "gornyi-velosiped-trek-marlin",
+    "image": "",
+    "create_at": "2026-01-21T20:24:45.757Z",
+    "modified_at": "2026-01-21T20:24:45.758Z",
+    "price": "69990.00",
+    "subcategory": 7
+  }
+},
+{
+  "model": "catalog.product",
+  "pk": 20,
+  "fields": {
+    "name": "Шоссейный велосипед Giant TCR",
+    "slug": "shosseinyi-velosiped-giant-tcr",
+    "image": "",
+    "create_at": "2026-01-21T20:25:10.783Z",
+    "modified_at": "2026-01-21T20:25:10.784Z",
+    "price": "129990.00",
+    "subcategory": 7
+  }
+},
+{
+  "model": "catalog.product",
+  "pk": 21,
+  "fields": {
+    "name": "Электровелосипед Xiaomi Himo",
+    "slug": "elektrovelosiped-xiaomi-himo",
+    "image": "",
+    "create_at": "2026-01-21T20:25:35.809Z",
+    "modified_at": "2026-01-21T20:25:35.810Z",
+    "price": "89990.00",
+    "subcategory": 7
+  }
+},
+{
+  "model": "catalog.product",
+  "pk": 22,
+  "fields": {
+    "name": "Палатка The North Face",
+    "slug": "palatka-the-north-face",
+    "image": "",
+    "create_at": "2026-01-21T20:26:00.835Z",
+    "modified_at": "2026-01-21T20:26:00.836Z",
+    "price": "29990.00",
+    "subcategory": 8
+  }
+},
+{
+  "model": "catalog.product",
+  "pk": 23,
+  "fields": {
+    "name": "Рюкзак Osprey Atmos",
+    "slug": "riukzak-osprey-atmos",
+    "image": "",
+    "create_at": "2026-01-21T20:26:25.861Z",
+    "modified_at": "2026-01-21T20:26:25.862Z",
+    "price": "14990.00",
+    "subcategory": 8
+  }
+},
+{
+  "model": "catalog.product",
+  "pk": 24,
+  "fields": {
+    "name": "Спальный мешок The North Face Eco Trail",
+    "slug": "spalnyi-meshok-the-north-face-eco-trail",
+    "image": "",
+    "create_at": "2026-01-21T20:26:50.887Z",
+    "modified_at": "2026-01-21T20:26:50.888Z",
+    "price": "19990.00",
+    "subcategory": 8
+  }
+},
+{
+  "model": "catalog.product",
+  "pk": 25,
+  "fields": {
+    "name": "Кукла Barbie Dreamhouse",
+    "slug": "kukla-barbie-dreamhouse",
+    "image": "",
+    "create_at": "2026-01-21T20:27:15.913Z",
+    "modified_at": "2026-01-21T20:27:15.914Z",
+    "price": "6990.00",
+    "subcategory": 9
+  }
+},
+{
+  "model": "catalog.product",
+  "pk": 26,
+  "fields": {
+    "name": "Конструктор LEGO City",
+    "slug": "konstruktor-lego-city",
+    "image": "",
+    "create_at": "2026-01-21T20:27:40.939Z",
+    "modified_at": "2026-01-21T20:27:40.940Z",
+    "price": "4990.00",
+    "subcategory": 9
+  }
+},
+{
+  "model": "catalog.product",
+  "pk": 27,
+  "fields": {
+    "name": "Развивающая игрушка Fisher-Price",
+    "slug": "razvivayushaya-igrushka-fisher-price",
+    "image": "",
+    "create_at": "2026-01-21T20:28:05.965Z",
+    "modified_at": "2026-01-21T20:28:05.966Z",
+    "price": "2990.00",
+    "subcategory": 9
+  }
+},
+{
+  "model": "catalog.product",
+  "pk": 28,
+  "fields": {
+    "name": "Комбинезон зимний Reima",
+    "slug": "kombinezon-zimnii-reima",
+    "image": "",
+    "create_at": "2026-01-21T20:28:30.991Z",
+    "modified_at": "2026-01-21T20:28:30.992Z",
+    "price": "16990.00",
+    "subcategory": 10
+  }
+},
+{
+  "model": "catalog.product",
+  "pk": 29,
+  "fields": {
+    "name": "Куртка детская Columbia",
+    "slug": "kurtka-detskaya-columbia",
+    "image": "",
+    "create_at": "2026-01-21T20:28:56.017Z",
+    "modified_at": "2026-01-21T20:28:56.018Z",
+    "price": "12990.00",
+    "subcategory": 10
+  }
+},
+{
+  "model": "catalog.product",
+  "pk": 30,
+  "fields": {
+    "name": "Брюки детские Nike",
+    "slug": "bryuki-detskie-nike",
+    "image": "",
+    "create_at": "2026-01-21T20:29:21.043Z",
+    "modified_at": "2026-01-21T20:29:21.044Z",
+    "price": "5990.00",
+    "subcategory": 10
+  }
+},
+{
+  "model": "users.storeuser",
+  "pk": 1,
+  "fields": {
+    "password": "pbkdf2_sha256$1200000$4pi1aMMx4garzYSl5TuiBT$p/HM+b+l9glEdZ2tX61tHMwSnpNf97HS6w80OrbM93s=",
+    "last_login": "2026-01-23T20:33:43.292Z",
+    "is_superuser": true,
+    "username": "admin@admin.com",
+    "first_name": "",
+    "last_name": "",
+    "email": "admin@admin.com",
+    "is_staff": true,
+    "is_active": true,
+    "date_joined": "2026-01-21T17:39:29.745Z",
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "users.storeuser",
+  "pk": 2,
+  "fields": {
+    "password": "pbkdf2_sha256$1200000$Ri5cvkGZYc5o58oItoo551$207SY31K5oHODXcmD5XZRUl+YmB2Jw+1fGvmeug8lJE=",
+    "last_login": null,
+    "is_superuser": false,
+    "username": "test",
+    "first_name": "",
+    "last_name": "",
+    "email": "",
+    "is_staff": false,
+    "is_active": true,
+    "date_joined": "2026-01-25T08:21:32.777Z",
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "cart.cart",
+  "pk": 27,
+  "fields": {
+    "user": 1,
+    "product": 2,
+    "count": 22,
+    "create_at": "2026-01-25T19:06:14.790Z",
+    "modified_at": "2026-01-25T19:06:58.341Z"
+  }
+},
+{
+  "model": "cart.cart",
+  "pk": 28,
+  "fields": {
+    "user": 2,
+    "product": 1,
+    "count": 3,
+    "create_at": "2026-01-25T19:06:42.156Z",
+    "modified_at": "2026-01-25T19:06:42.156Z"
+  }
+},
+{
+  "model": "cart.cart",
+  "pk": 29,
+  "fields": {
+    "user": 2,
+    "product": 3,
+    "count": 4,
+    "create_at": "2026-01-25T19:07:37.156Z",
+    "modified_at": "2026-01-25T19:07:37.156Z"
+  }
+},
+{
+  "model": "cart.cart",
+  "pk": 30,
+  "fields": {
+    "user": 2,
+    "product": 2,
+    "count": 6,
+    "create_at": "2026-01-25T20:10:28.883Z",
+    "modified_at": "2026-01-25T20:12:05.523Z"
+  }
+}
+]

@@ -148,5 +148,4 @@ setup.cfg
 
 .mypy_cache
 media/
-fixtures/full_no_image_db.json
 fixtures/new.json
