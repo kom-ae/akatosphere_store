@@ -5,3 +5,4 @@ Pillow==12.1.0
 django-imagekit==6.0.0
 djangorestframework==3.16.1
 djoser==2.3.3
+pytest-django==4.11.1
