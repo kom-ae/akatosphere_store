@@ -1,3 +1,5 @@
+from http import HTTPStatus
+
 from django.db.models import F, Sum
 from django.shortcuts import get_object_or_404
 from rest_framework import permissions, status, viewsets
@@ -36,9 +38,12 @@ class CartViewSet(viewsets.ModelViewSet):
     """Представление для корзины."""
 
     serializer_class = CartSerializer
+    # lookup_field = 'product'
 
     def get_queryset(self):
-        return Cart.objects.filter(user=self.request.user)
+        return Cart.objects.filter(
+            user=self.request.user
+        ).select_related('product')
 
     def get_serializer_class(self):
         if self.action == 'view':
@@ -51,26 +56,26 @@ class CartViewSet(viewsets.ModelViewSet):
     @action(detail=False, methods=['post'])
     def add(self, request):
         """Добавить товар в корзину."""
-        product_id = request.data.get('product')
-        count = request.data.get('count', 1)
 
-        if not product_id:
+        serializer = self.get_serializer(data=request.data)
+        if not serializer.is_valid():
             return Response(
-                {'detail': 'product не указан'},
-                status=status.HTTP_400_BAD_REQUEST,
+                serializer.errors,
+                status=HTTPStatus.BAD_REQUEST
             )
-        product = get_object_or_404(Product, pk=product_id)
-        cart_item, created = Cart.objects.get_or_create(
-            user=self.request.user,
-            product=product,
-            defaults={'count': count}
-        )
-        if not created:
-            cart_item.count += count
-            cart_item.save()
-        serializer = self.get_serializer(cart_item)
+        product_id = serializer.validated_data['product']
+        count = serializer.validated_data['count']
 
-        return Response(serializer.data, status=status.HTTP_201_CREATED)
+        product_cart = self.get_queryset().filter(product=product_id).first()
+        if product_cart:
+            product_cart.count += count
+            product_cart.save()
+        else:
+            product_cart = serializer.save(user=request.user)
+
+        serializer = self.get_serializer(product_cart)
+
+        return Response(serializer.data, status=HTTPStatus.CREATED)
 
     @action(
         detail=False,
@@ -79,21 +84,21 @@ class CartViewSet(viewsets.ModelViewSet):
     )
     def update_count(self, request, product_id):
         """Изменить количество товара в корзине."""
-        count = request.data.get('count')
+        product_cart = get_object_or_404(
+            self.get_queryset(),
+            product=product_id
+        )
 
-        if count is None or count <= 0:
-            return Response(
-                {'detail': 'count должно быть больше 0'},
-                status=status.HTTP_400_BAD_REQUEST
-            )
-
-        cart_item = get_object_or_404(self.get_queryset(), product=product_id)
-
-        cart_item.count = count
-        cart_item.save()
-
-        serializer = self.get_serializer(cart_item)
-        return Response(serializer.data)
+        serializer = self.get_serializer(
+            product_cart,
+            data=request.data,
+            partial=True
+        )
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=HTTPStatus.OK)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        
 
     @action(
         detail=False,
