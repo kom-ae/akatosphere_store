@@ -1,8 +1,7 @@
 from rest_framework import serializers
-from django.shortcuts import get_object_or_404
 
-from catalog.models import Product, Category, SubCategory
 from cart.models import Cart
+from catalog.models import Category, Product, SubCategory
 
 
 class ProductSerializer(serializers.ModelSerializer):
@@ -80,7 +79,6 @@ class CategorySerializer(serializers.ModelSerializer):
 class CartSerializer(serializers.ModelSerializer):
     """Сериализатор для корзины."""
 
-
     class Meta:
         model = Cart
         fields = ('id', 'product', 'count')
@@ -89,11 +87,9 @@ class CartSerializer(serializers.ModelSerializer):
         """Запрет обновления самого продукта."""
         validated_data.pop('product', None)
         return super().update(instance, validated_data)
-    
 
     def to_representation(self, instance):
         return CartViewSerializer(instance).data
-
 
 
 class CartViewSerializer(serializers.ModelSerializer):

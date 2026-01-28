@@ -1,7 +1,6 @@
 from http import HTTPStatus
 
 from django.db.models import F, Sum
-from django.shortcuts import get_object_or_404
 from rest_framework import permissions, status, viewsets
 from rest_framework.decorators import action
 from rest_framework.response import Response
@@ -38,12 +37,17 @@ class CartViewSet(viewsets.ModelViewSet):
     """Представление для корзины."""
 
     serializer_class = CartSerializer
-    # lookup_field = 'product'
+    lookup_field = 'product'
 
     def get_queryset(self):
-        return Cart.objects.filter(
-            user=self.request.user
-        ).select_related('product')
+        queryset = Cart.objects.filter(user=self.request.user).select_related(
+            'product'
+        )
+        if self.action == 'view':
+            return queryset.annotate(
+                total_price=F('product__price') * F('count')
+            )
+        return queryset
 
     def get_serializer_class(self):
         if self.action == 'view':
@@ -77,39 +81,38 @@ class CartViewSet(viewsets.ModelViewSet):
 
         return Response(serializer.data, status=HTTPStatus.CREATED)
 
-    @action(
-        detail=False,
-        methods=['put'],
-        url_path=r'update-count/(?P<product_id>\d+)'
-    )
-    def update_count(self, request, product_id):
-        """Изменить количество товара в корзине."""
-        product_cart = get_object_or_404(
-            self.get_queryset(),
-            product=product_id
-        )
+    # @action(
+    #     detail=False,
+    #     methods=['put'],
+    #     url_path=r'update-count/(?P<product_id>\d+)'
+    # )
+    # def update_count(self, request, product_id):
+    #     """Изменить количество товара в корзине."""
+    #     product_cart = get_object_or_404(
+    #         self.get_queryset(),
+    #         product=product_id
+    #     )
 
-        serializer = self.get_serializer(
-            product_cart,
-            data=request.data,
-            partial=True
-        )
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data, status=HTTPStatus.OK)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-        
+    #     serializer = self.get_serializer(
+    #         product_cart,
+    #         data=request.data,
+    #         partial=True
+    #     )
+    #     if serializer.is_valid():
+    #         serializer.save()
+    #         return Response(serializer.data, status=HTTPStatus.OK)
+    #     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-    @action(
-        detail=False,
-        methods=['delete'],
-        url_path=r'remove/(?P<product_id>\d+)'
-    )
-    def remove(self, request, product_id):
-        """Удалить продукт из корзины."""
-        product = get_object_or_404(self.get_queryset(), product=product_id)
-        product.delete()
-        return Response(status=status.HTTP_204_NO_CONTENT)
+    # @action(
+    #     detail=False,
+    #     methods=['delete'],
+    #     url_path=r'remove/(?P<product_id>\d+)'
+    # )
+    # def remove(self, request, product_id):
+    #     """Удалить продукт из корзины."""
+    #     product = get_object_or_404(self.get_queryset(), product=product_id)
+    #     product.delete()
+    #     return Response(status=status.HTTP_204_NO_CONTENT)
 
     @action(detail=False, methods=['delete'], url_path='clear')
     def clear(self, request):
@@ -119,21 +122,19 @@ class CartViewSet(viewsets.ModelViewSet):
 
     @action(detail=False, methods=['get'], url_path='view')
     def view(self, request):
-        queryset = self.get_queryset().select_related('product').annotate(
-            total_price=F('product__price') * F('count')
-        )
+        """Представление содержимого корзины с общими итогами."""
+        queryset = self.get_queryset()
         serializer = self.get_serializer(queryset, many=True)
-
         totals = queryset.aggregate(
             total_quantity=Sum('count'),
             total_amount=Sum('total_price')
         )
-        response_data = {
-            'cart': serializer.data,
-            'total_in_cart': {
-                'total_quantity': totals['total_quantity'] or 0,
-                'total_amount': totals['total_amount'] or 0.00
+        return Response(
+            {
+                'cart': serializer.data,
+                'total_in_cart': {
+                    'total_quantity': totals['total_quantity'] or 0,
+                    'total_amount': totals['total_amount'] or 0.00
+                }
             }
-        }
-
-        return Response(response_data)
+        )
