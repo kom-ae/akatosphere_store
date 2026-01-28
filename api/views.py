@@ -1,6 +1,7 @@
 from http import HTTPStatus
 
 from django.db.models import F, Sum
+from rest_framework import mixins
 from rest_framework import permissions, viewsets
 from rest_framework.decorators import action
 from rest_framework.response import Response
@@ -33,7 +34,7 @@ class CategoryViewSet(viewsets.ReadOnlyModelViewSet):
     permission_classes = (permissions.AllowAny,)
 
 
-class CartViewSet(viewsets.ModelViewSet):
+class CartViewSet(mixins.RetrieveModelMixin, mixins.DestroyModelMixin, mixins.UpdateModelMixin, viewsets.GenericViewSet):
     """Представление для корзины."""
 
     serializer_class = CartSerializer
@@ -60,7 +61,6 @@ class CartViewSet(viewsets.ModelViewSet):
     @action(detail=False, methods=['post'])
     def add(self, request):
         """Добавить товар в корзину."""
-
         serializer = self.get_serializer(data=request.data)
         if not serializer.is_valid():
             return Response(

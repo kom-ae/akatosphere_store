@@ -33,6 +33,7 @@ INSTALLED_APPS = [
     'catalog.apps.CatalogConfig',
     'users.apps.UsersConfig',
     'cart.apps.CartConfig',
+    'drf_spectacular',
 ]
 
 MIDDLEWARE = [
@@ -89,6 +90,7 @@ AUTH_PASSWORD_VALIDATORS = [
 ]
 
 REST_FRAMEWORK = {
+    'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema',
     'DEFAULT_PERMISSION_CLASSES': [
         'rest_framework.permissions.IsAuthenticated',
     ],
@@ -120,3 +122,16 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 # Настройки IMAGEKIT
 IMAGEKIT_CACHEFILE_DIR = IMAGEKIT_CACHEFILE_DIR
+SPECTACULAR_SETTINGS = {
+    'TITLE': 'API',
+    'DESCRIPTION': 'Документация API проекта',
+    'VERSION': '1.0.0',
+    'SERVE_INCLUDE_SCHEMA': False,
+    'COMPONENT_AUTHENTICATION': [
+        {
+            'type': 'http',
+            'scheme': 'bearer',
+            'bearerFormat': 'JWT',
+        }
+    ],
+}
