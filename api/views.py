@@ -1,7 +1,7 @@
 from http import HTTPStatus
 
 from django.db.models import F, Sum
-from rest_framework import permissions, status, viewsets
+from rest_framework import permissions, viewsets
 from rest_framework.decorators import action
 from rest_framework.response import Response
 
@@ -44,9 +44,9 @@ class CartViewSet(viewsets.ModelViewSet):
             'product'
         )
         if self.action == 'view':
-            return queryset.annotate(
-                total_price=F('product__price') * F('count')
-            )
+            return queryset.annotate(total_price=F('product__price')
+                                     * F('count')
+                                     )
         return queryset
 
     def get_serializer_class(self):
@@ -81,44 +81,11 @@ class CartViewSet(viewsets.ModelViewSet):
 
         return Response(serializer.data, status=HTTPStatus.CREATED)
 
-    # @action(
-    #     detail=False,
-    #     methods=['put'],
-    #     url_path=r'update-count/(?P<product_id>\d+)'
-    # )
-    # def update_count(self, request, product_id):
-    #     """Изменить количество товара в корзине."""
-    #     product_cart = get_object_or_404(
-    #         self.get_queryset(),
-    #         product=product_id
-    #     )
-
-    #     serializer = self.get_serializer(
-    #         product_cart,
-    #         data=request.data,
-    #         partial=True
-    #     )
-    #     if serializer.is_valid():
-    #         serializer.save()
-    #         return Response(serializer.data, status=HTTPStatus.OK)
-    #     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
-    # @action(
-    #     detail=False,
-    #     methods=['delete'],
-    #     url_path=r'remove/(?P<product_id>\d+)'
-    # )
-    # def remove(self, request, product_id):
-    #     """Удалить продукт из корзины."""
-    #     product = get_object_or_404(self.get_queryset(), product=product_id)
-    #     product.delete()
-    #     return Response(status=status.HTTP_204_NO_CONTENT)
-
     @action(detail=False, methods=['delete'], url_path='clear')
     def clear(self, request):
         """Очистить корзину."""
         self.get_queryset().all().delete()
-        return Response(status=status.HTTP_204_NO_CONTENT)
+        return Response(status=HTTPStatus.NO_CONTENT)
 
     @action(detail=False, methods=['get'], url_path='view')
     def view(self, request):

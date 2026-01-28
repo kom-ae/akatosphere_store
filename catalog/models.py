@@ -8,8 +8,9 @@ from imagekit.models import ImageSpecField
 from imagekit.processors import ResizeToFit
 from unidecode import unidecode
 
-from constants import (IMAGEKIT_FORMAT, IMAGEKIT_OPTIONS, MAX_LENGTH_NAME,
-                       SIZE_BIG_IMAGE, SIZE_MEDIUM_IMAGE, SIZE_SMALL_IMAGE)
+from constants import (DECIMAL_MAX_DIGITS, DECIMAL_PLACES, IMAGEKIT_FORMAT,
+                       IMAGEKIT_OPTIONS, MAX_LENGTH_NAME, SIZE_BIG_IMAGE,
+                       SIZE_MEDIUM_IMAGE, SIZE_SMALL_IMAGE)
 from utils import get_trim_line
 
 
@@ -114,8 +115,8 @@ class Product(CategoryProductsAbstractModel):
 
     price = models.DecimalField(
         verbose_name='Цена',
-        max_digits=10,
-        decimal_places=2
+        max_digits=DECIMAL_MAX_DIGITS,
+        decimal_places=DECIMAL_PLACES
     )
     subcategory = models.ForeignKey(
         SubCategory,

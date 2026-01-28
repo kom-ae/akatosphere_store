@@ -3,6 +3,8 @@ from rest_framework import serializers
 from cart.models import Cart
 from catalog.models import Category, Product, SubCategory
 
+from constants import DECIMAL_MAX_DIGITS, DECIMAL_PLACES
+
 
 class ProductSerializer(serializers.ModelSerializer):
     """Сериализатор для продуктов."""
@@ -97,8 +99,8 @@ class CartViewSerializer(serializers.ModelSerializer):
 
     product = ProductSerializer(read_only=True)
     total_price = serializers.DecimalField(
-        max_digits=10,
-        decimal_places=2,
+        max_digits=DECIMAL_MAX_DIGITS,
+        decimal_places=DECIMAL_PLACES,
         read_only=True
     )
 

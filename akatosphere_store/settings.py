@@ -5,6 +5,8 @@ from pathlib import Path
 from django.core.management.utils import get_random_secret_key
 from dotenv import load_dotenv
 
+from constants import IMAGEKIT_CACHEFILE_DIR, PAGINATION_PAGE_SIZE
+
 load_dotenv()
 
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -95,7 +97,7 @@ REST_FRAMEWORK = {
         'rest_framework_simplejwt.authentication.JWTAuthentication',
     ],
     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
-    'PAGE_SIZE': 3,
+    'PAGE_SIZE': PAGINATION_PAGE_SIZE,
 }
 
 SIMPLE_JWT = {
@@ -117,4 +119,4 @@ MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 # Настройки IMAGEKIT
-IMAGEKIT_CACHEFILE_DIR = 'CACHE'
+IMAGEKIT_CACHEFILE_DIR = IMAGEKIT_CACHEFILE_DIR
