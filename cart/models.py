@@ -39,6 +39,12 @@ class Cart(models.Model):
         verbose_name_plural = 'Корзина'
         default_related_name = 'cart'
         ordering = ('user',)
+        constraints = (
+            models.UniqueConstraint(
+                fields=('user', 'product'),
+                name='Unique user-product constraint'
+            ),
+        )
 
     def __str__(self):
         return '{}: {}'.format(self.user, get_trim_line(self.product))
