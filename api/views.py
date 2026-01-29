@@ -1,13 +1,14 @@
 from http import HTTPStatus
 
 from django.db.models import F, Sum
-from rest_framework import mixins
-from rest_framework import permissions, viewsets
+from drf_spectacular.utils import extend_schema_view
+from rest_framework import mixins, permissions, viewsets
 from rest_framework.decorators import action
 from rest_framework.response import Response
 
-from api.serializers import (CartSerializer, CartViewSerializer,
-                             CategorySerializer, ProductSerializer)
+from api.schemas import create_cart_product
+from api.serializers import (CartSerializer, CategorySerializer,
+                             ProductSerializer)
 from cart.models import Cart
 from catalog.models import Category, Product
 
@@ -34,58 +35,30 @@ class CategoryViewSet(viewsets.ReadOnlyModelViewSet):
     permission_classes = (permissions.AllowAny,)
 
 
-class CartViewSet_Old(mixins.RetrieveModelMixin, mixins.DestroyModelMixin, mixins.UpdateModelMixin, viewsets.GenericViewSet):
+@extend_schema_view(create=create_cart_product)
+class CartViewSet(
+        mixins.CreateModelMixin,
+        mixins.DestroyModelMixin,
+        mixins.UpdateModelMixin,
+        viewsets.GenericViewSet
+):
     """Представление для корзины."""
 
+    queryset = Cart.objects.all()
     serializer_class = CartSerializer
     lookup_field = 'product'
+    http_method_names = ['get', 'post', 'put', 'delete']
 
     def get_queryset(self):
-        queryset = Cart.objects.filter(user=self.request.user).select_related(
-            'product'
-        )
+        queryset = Cart.objects.filter(
+            user=self.request.user).select_related('product')
         if self.action == 'view':
-            return queryset.annotate(total_price=F('product__price')
-                                     * F('count')
-                                     )
+            return queryset.annotate(
+                total_price=F('product__price') * F('count'))
         return queryset
-
-    def get_serializer_class(self):
-        if self.action == 'view':
-            return CartViewSerializer
-        return super().get_serializer_class()
 
     def perform_create(self, serializer):
         return serializer.save(user=self.request.user)
-
-    @action(detail=False, methods=['post'])
-    def add(self, request):
-        """Добавить товар в корзину."""
-        serializer = self.get_serializer(data=request.data)
-        if not serializer.is_valid():
-            return Response(
-                serializer.errors,
-                status=HTTPStatus.BAD_REQUEST
-            )
-        product_id = serializer.validated_data['product']
-        count = serializer.validated_data['count']
-
-        product_cart = self.get_queryset().filter(product=product_id).first()
-        if product_cart:
-            product_cart.count += count
-            product_cart.save()
-        else:
-            product_cart = serializer.save(user=request.user)
-
-        serializer = self.get_serializer(product_cart)
-
-        return Response(serializer.data, status=HTTPStatus.CREATED)
-
-    @action(detail=False, methods=['delete'], url_path='clear')
-    def clear(self, request):
-        """Очистить корзину."""
-        self.get_queryset().all().delete()
-        return Response(status=HTTPStatus.NO_CONTENT)
 
     @action(detail=False, methods=['get'], url_path='view')
     def view(self, request):
@@ -105,29 +78,6 @@ class CartViewSet_Old(mixins.RetrieveModelMixin, mixins.DestroyModelMixin, mixin
                 }
             }
         )
-
-
-class CartViewSet(mixins.CreateModelMixin, mixins.DestroyModelMixin, mixins.UpdateModelMixin, viewsets.GenericViewSet):
-    """Представление для корзины."""
-
-    serializer_class = CartSerializer
-    lookup_field = 'product'
-    http_method_names = ['post', 'put', 'delete']
-
-    def get_queryset(self):
-        return Cart.objects.filter(user=self.request.user).select_related(
-            'product'
-        )
-        if self.action == 'view':
-            return queryset.annotate(total_price=F('product__price')
-                                     * F('count')
-                                     )
-        return queryset
-
-    def get_serializer_class(self):
-        if self.action == 'view':
-            return CartViewSerializer
-        return super().get_serializer_class()
 
     def create(self, request, *args, **kwargs):
         data = request.data
@@ -149,30 +99,8 @@ class CartViewSet(mixins.CreateModelMixin, mixins.DestroyModelMixin, mixins.Upda
             )
         return super().create(request, *args, **kwargs)
 
-    def perform_create(self, serializer):
-        return serializer.save(user=self.request.user)
-
     @action(detail=False, methods=['delete'], url_path='clear')
     def clear(self, request):
         """Очистить корзину."""
         self.get_queryset().all().delete()
         return Response(status=HTTPStatus.NO_CONTENT)
-
-    @action(detail=False, methods=['get'], url_path='view')
-    def view(self, request):
-        """Представление содержимого корзины с общими итогами."""
-        queryset = self.get_queryset()
-        serializer = self.get_serializer(queryset, many=True)
-        totals = queryset.aggregate(
-            total_quantity=Sum('count'),
-            total_amount=Sum('total_price')
-        )
-        return Response(
-            {
-                'cart': serializer.data,
-                'total_in_cart': {
-                    'total_quantity': totals['total_quantity'] or 0,
-                    'total_amount': totals['total_amount'] or 0.00
-                }
-            }
-        )

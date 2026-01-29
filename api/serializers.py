@@ -20,7 +20,7 @@ class ProductSerializer(serializers.ModelSerializer):
 
     images = serializers.SerializerMethodField()
 
-    def get_images(self, obj: Product):
+    def get_images(self, obj: Product) -> list[dict[str, str]]:
         request = self.context.get('request')
         images = []
 
