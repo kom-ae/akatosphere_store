@@ -115,7 +115,7 @@ class CartViewSet(mixins.CreateModelMixin, mixins.DestroyModelMixin, mixins.Upda
     http_method_names = ['post', 'put', 'delete']
 
     def get_queryset(self):
-        queryset = Cart.objects.filter(user=self.request.user).select_related(
+        return Cart.objects.filter(user=self.request.user).select_related(
             'product'
         )
         if self.action == 'view':
