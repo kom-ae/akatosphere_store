@@ -26,7 +26,7 @@ class TestCart:
     @pytest.mark.usefixtures('test_user')
     def test_add_cart(self, authenticated_api_client):
         """Добавление товара в корзину."""
-        url = reverse('api:cart-add')
+        url = reverse('api:cart-list')
         data = {
             'product': 2,
             'count': 22

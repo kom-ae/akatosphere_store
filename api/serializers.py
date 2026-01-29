@@ -2,7 +2,6 @@ from rest_framework import serializers
 
 from cart.models import Cart
 from catalog.models import Category, Product, SubCategory
-
 from constants import DECIMAL_MAX_DIGITS, DECIMAL_PLACES
 
 
