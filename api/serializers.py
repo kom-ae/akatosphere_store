@@ -1,3 +1,5 @@
+from decimal import Decimal
+
 from rest_framework import serializers
 
 from cart.models import Cart
@@ -77,24 +79,40 @@ class CategorySerializer(serializers.ModelSerializer):
         fields = ('id', 'name', 'slug', 'image', 'subcategories',)
 
 
+class CartUpdateSerializer(serializers.ModelSerializer):
+    """Обновление количества товара в корзине."""
+
+    count = serializers.IntegerField(required=True)
+
+    class Meta:
+        model = Cart
+        fields = ('id', 'count')
+
+    def to_representation(self, instance):
+        data = CartViewSerializer(instance).data
+        # data['total_price'] = (int(data['count']) *
+        #                        Decimal(data['product']['price']))
+        return data
+
+
 class CartSerializer(serializers.ModelSerializer):
-    """Сериализатор для корзины."""
+    """Добавление, удаление товара в корзине."""
 
     class Meta:
         model = Cart
         fields = ('id', 'product', 'count')
 
-    def update(self, instance, validated_data):
-        """Запрет обновления самого продукта."""
-        validated_data.pop('product', None)
-        return super().update(instance, validated_data)
-
     def to_representation(self, instance):
-        return CartViewSerializer(instance).data
+        data = CartViewSerializer(instance).data
+        # if not hasattr(instance, 'total_count'):
+        #     data = CartViewSerializer(instance).data
+        #     data['total_price'] = (int(data['count']) *
+        #                            Decimal(data['product']['price']))
+        return data
 
 
 class CartViewSerializer(serializers.ModelSerializer):
-    """Сериализатор для представления корзины пользователю."""
+    """Для представления корзины пользователю."""
 
     product = ProductSerializer(read_only=True)
     total_price = serializers.DecimalField(
@@ -106,3 +124,12 @@ class CartViewSerializer(serializers.ModelSerializer):
     class Meta:
         model = Cart
         fields = ['id', 'product', 'count', 'total_price']
+
+    def to_representation(self, instance):
+        
+        data = super().to_representation(instance)
+        if not hasattr(data, 'total_count'):
+            data['total_price'] = (int(data['count']) *
+                                   Decimal(data['product']['price']))
+        return data
+

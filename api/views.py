@@ -7,8 +7,8 @@ from rest_framework.decorators import action
 from rest_framework.response import Response
 
 from api.schemas import create_cart_product
-from api.serializers import (CartSerializer, CategorySerializer,
-                             ProductSerializer)
+from api.serializers import (CartSerializer, CartUpdateSerializer,
+                             CategorySerializer, ProductSerializer)
 from cart.models import Cart
 from catalog.models import Category, Product
 
@@ -59,6 +59,11 @@ class CartViewSet(
 
     def perform_create(self, serializer):
         return serializer.save(user=self.request.user)
+
+    def get_serializer_class(self):
+        if self.action == 'update':
+            return CartUpdateSerializer
+        return super().get_serializer_class()
 
     @action(detail=False, methods=['get'], url_path='view')
     def view(self, request):
