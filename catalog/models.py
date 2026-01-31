@@ -8,9 +8,16 @@ from imagekit.models import ImageSpecField
 from imagekit.processors import ResizeToFit
 from unidecode import unidecode
 
-from constants import (DECIMAL_MAX_DIGITS, DECIMAL_PLACES, IMAGEKIT_FORMAT,
-                       IMAGEKIT_OPTIONS, MAX_LENGTH_NAME, SIZE_BIG_IMAGE,
-                       SIZE_MEDIUM_IMAGE, SIZE_SMALL_IMAGE)
+from constants import (
+    DECIMAL_MAX_DIGITS,
+    DECIMAL_PLACES,
+    IMAGEKIT_FORMAT,
+    IMAGEKIT_OPTIONS,
+    MAX_LENGTH_NAME,
+    SIZE_BIG_IMAGE,
+    SIZE_MEDIUM_IMAGE,
+    SIZE_SMALL_IMAGE,
+)
 from utils import get_trim_line
 
 
@@ -95,7 +102,7 @@ class SubCategory(CategoryProductsAbstractModel):
         constraints = (
             models.UniqueConstraint(
                 fields=('name', 'category'),
-                name='Unique category-subcategory constraint'
+                name='Unique category-subcategory constraint',
             ),
         )
 
@@ -103,7 +110,7 @@ class SubCategory(CategoryProductsAbstractModel):
         if not self.slug:
             self.slug = '{}_{}'.format(
                 self.category.slug,
-                slugify(unidecode(self.name))
+                slugify(unidecode(self.name)),
             )
         super().save(*args, **kwargs)
 
@@ -116,7 +123,7 @@ class Product(CategoryProductsAbstractModel):
     price = models.DecimalField(
         verbose_name='Цена',
         max_digits=DECIMAL_MAX_DIGITS,
-        decimal_places=DECIMAL_PLACES
+        decimal_places=DECIMAL_PLACES,
     )
     subcategory = models.ForeignKey(
         SubCategory,
@@ -124,19 +131,19 @@ class Product(CategoryProductsAbstractModel):
         on_delete=models.CASCADE,
     )
     image_small = ImageSpecField(
-        processors=[ResizeToFit(*SIZE_SMALL_IMAGE),],
+        processors=[ResizeToFit(*SIZE_SMALL_IMAGE)],
         source='image',
         format=IMAGEKIT_FORMAT,
         options=IMAGEKIT_OPTIONS,
     )
     image_medium = ImageSpecField(
-        processors=[ResizeToFit(*SIZE_MEDIUM_IMAGE),],
+        processors=[ResizeToFit(*SIZE_MEDIUM_IMAGE)],
         source='image',
         format=IMAGEKIT_FORMAT,
         options=IMAGEKIT_OPTIONS,
     )
     image_big = ImageSpecField(
-        processors=[ResizeToFit(*SIZE_BIG_IMAGE),],
+        processors=[ResizeToFit(*SIZE_BIG_IMAGE)],
         source='image',
         format=IMAGEKIT_FORMAT,
         options=IMAGEKIT_OPTIONS,
@@ -149,7 +156,7 @@ class Product(CategoryProductsAbstractModel):
         constraints = (
             models.UniqueConstraint(
                 fields=('name', 'subcategory'),
-                name='Unique product-category constraint'
+                name='Unique product-category constraint',
             ),
         )
 
@@ -157,6 +164,6 @@ class Product(CategoryProductsAbstractModel):
         if not self.slug:
             self.slug = '{}_{}'.format(
                 self.subcategory.slug,
-                slugify(unidecode(self.name))
+                slugify(unidecode(self.name)),
             )
         super().save(*args, **kwargs)

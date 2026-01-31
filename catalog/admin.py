@@ -22,7 +22,7 @@ class SubCategoryAdmin(admin.ModelAdmin):
         'slug',
         'image',
         'create_at',
-        'modified_at'
+        'modified_at',
     )
     search_fields = ('name', 'slug')
     readonly_fields = ('slug',)
@@ -39,7 +39,7 @@ class ProductAdmin(admin.ModelAdmin):
         'image',
         'slug',
         'create_at',
-        'modified_at'
+        'modified_at',
     )
     search_fields = ('name', 'slug')
     readonly_fields = ('slug',)

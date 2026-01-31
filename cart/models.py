@@ -42,7 +42,7 @@ class Cart(models.Model):
         constraints = (
             models.UniqueConstraint(
                 fields=('user', 'product'),
-                name='Unique user-product constraint'
+                name='Unique user-product constraint',
             ),
         )
 

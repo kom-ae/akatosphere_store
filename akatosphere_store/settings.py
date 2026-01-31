@@ -71,7 +71,7 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': BASE_DIR / 'db.sqlite3',
-    }
+    },
 }
 
 AUTH_PASSWORD_VALIDATORS = [
@@ -132,6 +132,12 @@ SPECTACULAR_SETTINGS = {
             'type': 'http',
             'scheme': 'bearer',
             'bearerFormat': 'JWT',
-        }
+        },
+    ],
+    'SORT_OPERATIONS': False,
+    'TAGS': [
+        {'name': 'cart', 'description': 'Корзина'},
+        {'name': 'categories', 'description': 'Категории'},
+        {'name': 'products', 'description': 'Товары'},
     ],
 }

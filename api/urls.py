@@ -10,14 +10,12 @@ router_v1.register('products', ProductViewSet, basename='products')
 router_v1.register('categories', CategoryViewSet, basename='categories')
 router_v1.register('cart', CartViewSet, basename='cart')
 
-
-
 urlpatterns_v1 = [
     # path('', include('djoser.urls')),
-    path('', include('djoser.urls.jwt')),
+    path('', include('djoser.urls.jwt'), name='tokens'),
     path('', include(router_v1.urls)),
 ]
 
 urlpatterns = [
-    path('v1/', include(urlpatterns_v1))
+    path('v1/', include(urlpatterns_v1)),
 ]

@@ -6,27 +6,46 @@ from rest_framework import mixins, permissions, viewsets
 from rest_framework.decorators import action
 from rest_framework.response import Response
 
-from api.schemas import create_cart_product
-from api.serializers import (CartSerializer, CartUpdateSerializer,
-                             CategorySerializer, ProductSerializer)
+from api.schemas import (
+    clear_cart,
+    create_cart_product,
+    delete_product_in_cart,
+    retrieve_category,
+    retrieve_product,
+    update_count_cart_product,
+    view_cart,
+    view_categories,
+    view_products,
+)
+from api.serializers import (
+    CartSerializer,
+    CartUpdateSerializer,
+    CategorySerializer,
+    ProductSerializer,
+)
 from cart.models import Cart
 from catalog.models import Category, Product
 
 
+@extend_schema_view(
+    list=view_products,
+    retrieve=retrieve_product,
+)
 class ProductViewSet(viewsets.ReadOnlyModelViewSet):
     """Представление для продуктов."""
 
     queryset = Product.objects.select_related(
         'subcategory',
-        'subcategory__category'
+        'subcategory__category',
     )
     serializer_class = ProductSerializer
     permission_classes = (permissions.AllowAny,)
 
-    def get_serializer_context(self):
-        return {'request': self.request}
 
-
+@extend_schema_view(
+    list=view_categories,
+    retrieve=retrieve_category,
+)
 class CategoryViewSet(viewsets.ReadOnlyModelViewSet):
     """Представление для категорий."""
 
@@ -35,12 +54,18 @@ class CategoryViewSet(viewsets.ReadOnlyModelViewSet):
     permission_classes = (permissions.AllowAny,)
 
 
-@extend_schema_view(create=create_cart_product)
+@extend_schema_view(
+    create=create_cart_product,
+    update=update_count_cart_product,
+    destroy=delete_product_in_cart,
+    clear=clear_cart,
+    view=view_cart,
+)
 class CartViewSet(
         mixins.CreateModelMixin,
         mixins.DestroyModelMixin,
         mixins.UpdateModelMixin,
-        viewsets.GenericViewSet
+        viewsets.GenericViewSet,
 ):
     """Представление для корзины."""
 
@@ -72,16 +97,16 @@ class CartViewSet(
         serializer = self.get_serializer(queryset, many=True)
         totals = queryset.aggregate(
             total_quantity=Sum('count'),
-            total_amount=Sum('total_price')
+            total_amount=Sum('total_price'),
         )
         return Response(
             {
                 'cart': serializer.data,
                 'total_in_cart': {
                     'total_quantity': totals['total_quantity'] or 0,
-                    'total_amount': totals['total_amount'] or 0.00
-                }
-            }
+                    'total_amount': totals['total_amount'] or 0.00,
+                },
+            },
         )
 
     def create(self, request, *args, **kwargs):
@@ -90,7 +115,7 @@ class CartViewSet(
         serializer.is_valid(raise_exception=True)
         product = serializer.validated_data['product']
         product_cart = self.get_queryset().filter(
-            product=product
+            product=product,
         ).first()
 
         if product_cart:
@@ -100,7 +125,7 @@ class CartViewSet(
             serializer.save()
             return Response(
                 serializer.data,
-                status=HTTPStatus.OK
+                status=HTTPStatus.OK,
             )
         return super().create(request, *args, **kwargs)
 

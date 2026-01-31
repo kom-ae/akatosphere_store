@@ -7,3 +7,5 @@ djangorestframework==3.16.1
 djoser==2.3.3
 pytest-django==4.11.1
 drf-spectacular==0.29.0
+flake8==7.3.0
+ruff==0.14.14

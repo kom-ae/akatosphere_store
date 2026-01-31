@@ -26,7 +26,7 @@ class CartAdmin(admin.ModelAdmin):
         'get_subcategory',
         'count',
         'create_at',
-        'modified_at'
+        'modified_at',
     )
 
     @admin.display(description='Подкатегория')
