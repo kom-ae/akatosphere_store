@@ -149,3 +149,4 @@ setup.cfg
 .mypy_cache
 media/
 fixtures/new.json
+structure.txt

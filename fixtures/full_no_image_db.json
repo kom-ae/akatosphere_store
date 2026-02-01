@@ -4,7 +4,7 @@
   "pk": 1,
   "fields": {
     "slug": "elektronika",
-    "image": "catalog/categories/electronics.png",
+    "image": "",
     "create_at": "2026-01-21T17:40:59.063Z",
     "modified_at": "2026-01-21T17:40:59.063Z",
     "name": "Электроника"
@@ -15,7 +15,7 @@
   "pk": 2,
   "fields": {
     "slug": "odezhda",
-    "image": "catalog/categories/clothing.png",
+    "image": "",
     "create_at": "2026-01-21T17:41:12.145Z",
     "modified_at": "2026-01-21T17:41:12.145Z",
     "name": "Одежда"
@@ -26,7 +26,7 @@
   "pk": 3,
   "fields": {
     "slug": "bytovaya-tehnika",
-    "image": "catalog/categories/appliances.png",
+    "image": "",
     "create_at": "2026-01-21T17:41:25.201Z",
     "modified_at": "2026-01-21T17:41:25.201Z",
     "name": "Бытовая техника"
@@ -37,7 +37,7 @@
   "pk": 4,
   "fields": {
     "slug": "sport-i-otdyh",
-    "image": "catalog/categories/sports.png",
+    "image": "",
     "create_at": "2026-01-21T17:41:38.267Z",
     "modified_at": "2026-01-21T17:41:38.267Z",
     "name": "Спорт и отдых"
@@ -48,7 +48,7 @@
   "pk": 5,
   "fields": {
     "slug": "detskie-tovary",
-    "image": "catalog/categories/kids.png",
+    "image": "",
     "create_at": "2026-01-21T17:41:51.333Z",
     "modified_at": "2026-01-21T17:41:51.333Z",
     "name": "Детские товары"
@@ -60,7 +60,7 @@
   "fields": {
     "name": "Смартфоны",
     "slug": "smartfony",
-    "image": "catalog/subcategories/smartphones.png",
+    "image": "",
     "create_at": "2026-01-21T17:42:01.333Z",
     "modified_at": "2026-01-21T17:42:01.333Z",
     "category": 1
@@ -72,7 +72,7 @@
   "fields": {
     "name": "Ноутбуки",
     "slug": "noutbuki",
-    "image": "catalog/subcategories/laptops.png",
+    "image": "",
     "create_at": "2026-01-21T17:42:15.402Z",
     "modified_at": "2026-01-21T17:42:15.402Z",
     "category": 1
@@ -84,7 +84,7 @@
   "fields": {
     "name": "Верхняя одежда",
     "slug": "verhnyaya-odezhda",
-    "image": "catalog/subcategories/outerwear.png",
+    "image": "",
     "create_at": "2026-01-21T17:42:30.488Z",
     "modified_at": "2026-01-21T17:42:30.488Z",
     "category": 2
@@ -96,7 +96,7 @@
   "fields": {
     "name": "Обувь",
     "slug": "obuv",
-    "image": "catalog/subcategories/shoes.png",
+    "image": "",
     "create_at": "2026-01-21T17:42:45.555Z",
     "modified_at": "2026-01-21T17:42:45.555Z",
     "category": 2
@@ -108,7 +108,7 @@
   "fields": {
     "name": "Холодильники",
     "slug": "holodilniki",
-    "image": "catalog/subcategories/refrigerators.png",
+    "image": "",
     "create_at": "2026-01-21T17:43:00.622Z",
     "modified_at": "2026-01-21T17:43:00.622Z",
     "category": 3
@@ -120,7 +120,7 @@
   "fields": {
     "name": "Стиральные машины",
     "slug": "stiralnye-mashiny",
-    "image": "catalog/subcategories/washers.png",
+    "image": "",
     "create_at": "2026-01-21T17:43:15.689Z",
     "modified_at": "2026-01-21T17:43:15.689Z",
     "category": 3
@@ -132,7 +132,7 @@
   "fields": {
     "name": "Велоспорт",
     "slug": "velosport",
-    "image": "catalog/subcategories/cycling.png",
+    "image": "",
     "create_at": "2026-01-21T17:43:30.756Z",
     "modified_at": "2026-01-21T17:43:30.756Z",
     "category": 4
@@ -144,7 +144,7 @@
   "fields": {
     "name": "Туризм",
     "slug": "turizm",
-    "image": "catalog/subcategories/tourism.png",
+    "image": "",
     "create_at": "2026-01-21T17:43:45.823Z",
     "modified_at": "2026-01-21T17:43:45.823Z",
     "category": 4
@@ -156,7 +156,7 @@
   "fields": {
     "name": "Игрушки",
     "slug": "igrushki",
-    "image": "catalog/subcategories/toys.png",
+    "image": "",
     "create_at": "2026-01-21T17:44:00.890Z",
     "modified_at": "2026-01-21T17:44:00.890Z",
     "category": 5
@@ -168,7 +168,7 @@
   "fields": {
     "name": "Детская одежда",
     "slug": "detskaya-odezhda",
-    "image": "catalog/subcategories/kids_clothing.png",
+    "image": "",
     "create_at": "2026-01-21T17:44:00.890Z",
     "modified_at": "2026-01-21T17:44:00.890Z",
     "category": 5

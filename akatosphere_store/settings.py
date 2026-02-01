@@ -5,7 +5,11 @@ from pathlib import Path
 from django.core.management.utils import get_random_secret_key
 from dotenv import load_dotenv
 
-from constants import IMAGEKIT_CACHEFILE_DIR, PAGINATION_PAGE_SIZE
+from constants import (
+                       ACCESS_TOKEN_LIFETIME,
+                       IMAGEKIT_CACHEFILE_DIR,
+                       PAGINATION_PAGE_SIZE,
+)
 
 load_dotenv()
 
@@ -103,7 +107,7 @@ REST_FRAMEWORK = {
 }
 
 SIMPLE_JWT = {
-    'ACCESS_TOKEN_LIFETIME': timedelta(days=1),
+    'ACCESS_TOKEN_LIFETIME': timedelta(minutes=ACCESS_TOKEN_LIFETIME),
     'AUTH_HEADER_TYPES': ('Bearer',),
 }
 

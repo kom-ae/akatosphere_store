@@ -4,6 +4,8 @@ from drf_spectacular.utils import (
                                    extend_schema,
 )
 
+from api.serializers import CategorySerializer
+
 resp_val = {
     204: OpenApiResponse(description='No Content'),
     400: OpenApiResponse(description='Error: Bad Request.'),
@@ -167,6 +169,7 @@ retrieve_category = extend_schema(
     description='Просмотр выбранной категории '
     'с подкатегориями каталога товаров.',
     responses={
+        200: OpenApiResponse(CategorySerializer),
         404: resp_val[404],
     },
 )

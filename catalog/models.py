@@ -14,6 +14,7 @@ from constants import (
     IMAGEKIT_FORMAT,
     IMAGEKIT_OPTIONS,
     MAX_LENGTH_NAME,
+    MAX_LENGTH_SLUG,
     SIZE_BIG_IMAGE,
     SIZE_MEDIUM_IMAGE,
     SIZE_SMALL_IMAGE,
@@ -39,7 +40,7 @@ class CategoryProductsAbstractModel(models.Model):
         db_index=True,
     )
     slug = models.SlugField(
-        max_length=MAX_LENGTH_NAME,
+        max_length=MAX_LENGTH_SLUG,
         unique=True,
     )
     image = models.ImageField(
